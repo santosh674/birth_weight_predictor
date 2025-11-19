@@ -1,7 +1,7 @@
 from flask import Flask,request,jsonify,render_template
 import pandas as pd
 import pickle
-app = Flask(__name__)
+app3 = Flask(__name__)
 
 def get_cleaned_data(form_data):
     gestation = float(form_data['gestation'])
@@ -19,11 +19,11 @@ def get_cleaned_data(form_data):
                     "smoke":[smoke]
                     }
     return cleaned_data
-@app.route('/',methods=["GET"])
+@app3.route('/',methods=["GET"])
 def home():
     return render_template("index3.html")
 ## define endpoint
-@app.route("/predict",methods=['POST'])
+@app3.route("/predict",methods=['POST'])
 def get_prediction():
     # get data form user
     # baby_data = request.get_json()
@@ -34,7 +34,7 @@ def get_prediction():
     baby_df = pd.DataFrame(baby_data_cleaned)
 
     #load machine learning trained model
-    with open("model/model.pkl",'rb') as obj:
+    with open("model.pkl",'rb') as obj:
         model = pickle.load(obj)
     
     # make prediction on user data
@@ -50,4 +50,4 @@ def get_prediction():
 
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app3.run(debug=True)
